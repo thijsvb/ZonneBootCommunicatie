@@ -7,10 +7,12 @@ const int FONA_TX = 3;
 const int FONA_RST = 4;
 const int GPS_RX = 5;
 const int GPS_TX = 6;
-const int attopilot = A5;
+const int attopilotI = A5;
+const int attopilotU = A4;
 const bool GPSECHO = true;  //echoing gps data to Serial monitor
 
 float ISolar;
+float USolar;
 float Speed;
 bool usingInterrupt = false; //Not using interrupt
 void useInterrupt(boolean);
@@ -97,10 +99,11 @@ void loop(){
   }
 
   if(millis() - SMStimer >= SMSdelay){
-    ISolar = analogRead(A5)/3.7;
+    ISolar = analogRead(attopilotI)/3.7;
+    USolar = analogRead(attopilotU)/12.99;
     Speed = GPS.speed;
 
-    const String s = String(ISolar) + "," + String(Speed);
+    const String s = String(ISolar) + "," + String(USolar) + "," + String(Speed);
     //Copy s to data
     const int sz = s.length();
     for (int i=0; i!=sz; ++i)
